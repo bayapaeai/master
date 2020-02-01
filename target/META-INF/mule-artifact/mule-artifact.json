@@ -1,0 +1,25 @@
+{
+  "configs": [
+    "mulesoft-jenkins-ci-cd.xml"
+  ],
+  "secureProperties": [],
+  "redeploymentEnabled": true,
+  "name": "com.mycompany:mulesoft-jenkins-ci-cd:1.0.0-SNAPSHOT",
+  "minMuleVersion": "4.2.2",
+  "requiredProduct": "MULE",
+  "classLoaderModelLoaderDescriptor": {
+    "id": "mule",
+    "attributes": {
+      "exportedPackages": [],
+      "exportedResources": [
+        "jenkins.properties",
+        "log4j2.xml",
+        "mulesoft-jenkins-ci-cd.xml"
+      ]
+    }
+  },
+  "bundleDescriptorLoader": {
+    "id": "mule",
+    "attributes": {}
+  }
+}

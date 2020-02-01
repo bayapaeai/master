@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="8d45a57c-a873-44c9-9047-702df954445b" >
+		<http:listener-connection host="0.0.0.0" port="8083" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="945a31fd-2a91-48bf-9877-54adba8d9c84" basePath="/api/timezone" >
+		<http:request-connection host="worldtimeapi.org" port="80" />
+	</http:request-config>
+	<flow name="mulesoft-jenkins-ci-cdFlow" doc:id="f5ae73d9-cecb-40bb-8fb9-2625dbbf1687" >
+		<http:listener doc:name="Listener" doc:id="502b9ff9-f3e3-4a57-9f6d-0b085429c20d" config-ref="HTTP_Listener_config" path="/{region}/{city}"/>
+		<logger level="INFO" doc:name="Logger" doc:id="35aeb14d-c082-4371-b769-fb5cfac7e06d" message="Request is in progress"/>
+		<http:request method="GET" doc:name="Request" doc:id="f0022ec7-25ab-4a17-8d13-f7887ecfc2b4" config-ref="HTTP_Request_configuration" path="/{region}/{city}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	city : attributes.uriParams.city,
+	region : attributes.uriParams.region
+}]]]></http:uri-params>
+		</http:request>
+		<logger level="INFO" doc:name="Logger" doc:id="e57247b6-13e5-421c-877c-93e56267230e" message="Response from wordclock #[message]"/>
+	</flow>
+</mule>
